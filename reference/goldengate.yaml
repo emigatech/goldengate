@@ -1,0 +1,1101 @@
+openapi: 3.0.0
+
+info:
+  version: 0.1.0
+  title: GoldenGate
+  description: Cloud based dynamic/static scraper
+  
+servers:
+  - url: 'http:127.0.0.1:5000'
+    description: GoldenGate Public Api v0.1.0
+
+paths:
+  /api/auth/login:
+    post:
+      summary: GoldenGate login endpoint
+      tags: 
+        - auth
+      requestBody:
+        description: GoldenGate Auth
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required: 
+                - email
+                - password
+              example: 
+                - john@doe.com
+                - john-doe123
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  time: 
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      email:
+                        type: string
+                      token:
+                        type: string
+                      firstname:
+                        type: string
+                      lastname:
+                        type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+                
+  /api/auth/register:
+    post:
+      summary: GoldenGate registration endpoint
+      tags: 
+        - auth
+      requestBody:
+        description: GoldenGate Auth
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+              required: 
+                - email
+                - password
+                - firstname
+                - lastname
+              example: 
+                - john@doe.com
+                - john-doe123
+                - fistname
+                - lastname
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  time: 
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      email:
+                        type: string
+                      firstname:
+                        type: string
+                      lastname:
+                        type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+                
+  /api/scrape:
+    post:
+      summary: GoldenGate scrape endpoint
+      tags: 
+        - scrape
+      security: 
+        - Bearer: []
+      requestBody:
+        description: GoldenGate Scraper
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                cache:
+                  type: string
+                key:
+                  type: string
+              required: 
+                - url
+              example: 
+                - https://example.com
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                  time: 
+                    type: integer
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      seo:
+                        type: object
+                        properties:
+                          title:
+                            type: object
+                            properties:
+                              meta: 
+                                type: array
+                                items:
+                                  type: string
+                              og: 
+                                type: array
+                                items:
+                                  type: string
+                              twitter: 
+                                type: array
+                                items:
+                                  type: string
+                          description:
+                            type: object
+                            properties:
+                              meta: 
+                                type: array
+                                items:
+                                  type: string
+                              og: 
+                                type: array
+                                items:
+                                  type: string
+                              twitter: 
+                                type: array
+                                items:
+                                  type: string
+                          canonical:
+                            type: object
+                            properties:
+                              meta: 
+                                type: array
+                                items:
+                                  type: string
+                              og: 
+                                type: array
+                                items:
+                                  type: string
+                          image:
+                            type: object
+                            properties:
+                              og: 
+                                type: array
+                                items:
+                                  type: string
+                              twitter: 
+                                type: array
+                                items:
+                                  type: string
+                      url: 
+                        type: object
+                        properties:
+                          text:
+                            type: string
+                          link: 
+                            type: string
+                      media:
+                        type: object
+                        properties:
+                          img:
+                            type: object
+                            properties:
+                              alt:
+                                type: string
+                              link: 
+                                type: string
+                          video:
+                            type: array
+                            items: 
+                              type: string
+                          audio:
+                            type: array
+                            items:
+                              type: string
+                      text:
+                        type: object
+                        properties:
+                          h1:
+                            type: array
+                            items:
+                              type: string
+                          h2:
+                            type: array
+                            items:
+                              type: string
+                          h3:
+                            type: array
+                            items:
+                              type: string
+                          h4:
+                            type: array
+                            items:
+                              type: string
+                          h5:
+                            type: array
+                            items:
+                              type: string
+                          h6:
+                            type: array
+                            items:
+                              type: string
+                          p:
+                            type: array
+                            items:
+                              type: string   
+                          b:
+                            type: array
+                            items:
+                              type: string    
+                          i:
+                            type: array
+                            items:
+                              type: string    
+                          u:
+                            type: array
+                            items:
+                              type: string    
+                          strike:
+                            type: array
+                            items:
+                              type: string    
+                          sup:
+                            type: array
+                            items:
+                              type: string
+                          sub:
+                            type: array
+                            items:
+                              type: string
+                          small:
+                            type: array
+                            items:
+                              type: string 
+                          tt:
+                            type: array
+                            items:
+                              type: string
+                          pre:
+                            type: array
+                            items:
+                              type: string
+                          blockquote:
+                            type: array
+                            items:
+                              type: string
+                          strong:
+                            type: array
+                            items:
+                              type: string     
+                          em:
+                            type: array
+                            items:
+                              type: string   
+                          font:
+                            type: array
+                            items:
+                              type: string
+                            
+                      table:
+                        type: object
+                        properties:
+                          th:
+                            type: array
+                            items:
+                              type: string
+                          td:
+                            type: array
+                            items:
+                              type: string
+                      list:
+                        type: array
+                        items: 
+                          type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '401':
+          description: Unauthorized Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'    
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  /api/fetch/mobile:
+      post:
+        summary: GoldenGate fetch as mobile device endpoint
+        tags: 
+          - fetch
+        security: 
+          - Bearer: []
+        requestBody:
+          description: GoldenGate Mobile Fetcher
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                required: 
+                  - url
+                example: 
+                  - https://example.com
+        responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: integer
+                    time: 
+                      type: integer
+                    message:
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+          '400':
+            description: Bad request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          '401':
+            description: Unauthorized Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError' 
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InternalServerError'
+  /api/fetch/desktop:
+      post:
+        summary: GoldenGate fetch as desktop device endpoint
+        tags: 
+          - fetch
+        security: 
+          - Bearer: []
+        requestBody:
+          description: GoldenGate Mobile Fetcher
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                required: 
+                  - url
+                example: 
+                  - https://example.com
+        responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: integer
+                    time: 
+                      type: integer
+                    message:
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        key:
+                          type: string
+          '400':
+            description: Bad request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          '401':
+            description: Unauthorized Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError' 
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InternalServerError'
+  /api/storage/migrate:
+      post:
+        summary: GoldenGate migrate endpoint
+        tags: 
+          - migrate
+        security: 
+          - Bearer: []
+        requestBody:
+          description: GoldenGate Storage migrator to Google Cloud Storage
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  key:
+                    type: string
+                required: 
+                  - key
+                example: 
+                  - c9bc93f9-afea-4c36-81ff-822bd603abf0 
+        responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: integer
+                    time: 
+                      type: integer
+                    message:
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        html:
+                          type: string
+                        image:
+                          type: string  
+          '400':
+            description: Bad request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          '401':
+            description: Unauthorized Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError' 
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InternalServerError'
+  /api/worker/start:
+      post:
+        summary: GoldenGate Worker
+        tags: 
+          - worker
+        requestBody:
+          description: GoldenGate combined worker
+          required: true
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+                  token:
+                    type: string
+                  device:
+                    type: string
+                required: 
+                  - url
+                  - token
+                  - device
+                example: 
+                  - https://example.com
+                  - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                  - desktop | mobile
+        responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: integer
+                    time: 
+                      type: integer
+                    message:
+                      type: string
+                    key: 
+                      type: string
+                    url:
+                      type: string
+                    device:
+                      type: string
+                    storage:
+                      type: object
+                      properties:
+                        html:
+                          type: string
+                        image:
+                          type: string
+                    data:
+                      type: object
+                      properties:
+                        seo:
+                          type: object
+                          properties:
+                            title:
+                              type: object
+                              properties:
+                                meta: 
+                                  type: array
+                                  items:
+                                    type: string
+                                og: 
+                                  type: array
+                                  items:
+                                    type: string
+                                twitter: 
+                                  type: array
+                                  items:
+                                    type: string
+                            description:
+                              type: object
+                              properties:
+                                meta: 
+                                  type: array
+                                  items:
+                                    type: string
+                                og: 
+                                  type: array
+                                  items:
+                                    type: string
+                                twitter: 
+                                  type: array
+                                  items:
+                                    type: string
+                            canonical:
+                              type: object
+                              properties:
+                                meta: 
+                                  type: array
+                                  items:
+                                    type: string
+                                og: 
+                                  type: array
+                                  items:
+                                    type: string
+                            image:
+                              type: object
+                              properties:
+                                og: 
+                                  type: array
+                                  items:
+                                    type: string
+                                twitter: 
+                                  type: array
+                                  items:
+                                    type: string
+                        url: 
+                          type: object
+                          properties:
+                            text:
+                              type: string
+                            link: 
+                              type: string
+                        media:
+                          type: object
+                          properties:
+                            img:
+                              type: object
+                              properties:
+                                alt:
+                                  type: string
+                                link: 
+                                  type: string
+                            video:
+                              type: array
+                              items: 
+                                type: string
+                            audio:
+                              type: array
+                              items:
+                                type: string
+                        text:
+                          type: object
+                          properties:
+                            h1:
+                              type: array
+                              items:
+                                type: string
+                            h2:
+                              type: array
+                              items:
+                                type: string
+                            h3:
+                              type: array
+                              items:
+                                type: string
+                            h4:
+                              type: array
+                              items:
+                                type: string
+                            h5:
+                              type: array
+                              items:
+                                type: string
+                            h6:
+                              type: array
+                              items:
+                                type: string
+                            p:
+                              type: array
+                              items:
+                                type: string   
+                            b:
+                              type: array
+                              items:
+                                type: string    
+                            i:
+                              type: array
+                              items:
+                                type: string    
+                            u:
+                              type: array
+                              items:
+                                type: string    
+                            strike:
+                              type: array
+                              items:
+                                type: string    
+                            sup:
+                              type: array
+                              items:
+                                type: string
+                            sub:
+                              type: array
+                              items:
+                                type: string
+                            small:
+                              type: array
+                              items:
+                                type: string 
+                            tt:
+                              type: array
+                              items:
+                                type: string
+                            pre:
+                              type: array
+                              items:
+                                type: string
+                            blockquote:
+                              type: array
+                              items:
+                                type: string
+                            strong:
+                              type: array
+                              items:
+                                type: string     
+                            em:
+                              type: array
+                              items:
+                                type: string   
+                            font:
+                              type: array
+                              items:
+                                type: string
+                              
+                        table:
+                          type: object
+                          properties:
+                            th:
+                              type: array
+                              items:
+                                type: string
+                            td:
+                              type: array
+                              items:
+                                type: string
+                        list:
+                          type: array
+                          items: 
+                            type: string
+          '400':
+            description: Bad request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          '401':
+            description: Unauthorized Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError' 
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InternalServerError'
+  /api/data/results/{key}:
+      get:
+        summary: GoldenGate migrate endpoint
+        tags: 
+          - data
+        security: 
+          - Bearer: []
+        parameters:
+          - in: path
+            name: key
+            schema:
+              type: string
+            required: true  
+        responses:
+          '200':
+            description: success
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: integer
+                    time: 
+                      type: integer
+                    message:
+                      type: string
+                    data:
+                      type: object
+                      properties:
+                        key: 
+                          type: string
+                        message:
+                          type: string
+                        status: 
+                          type: string
+                        url:
+                          type: string
+                        time:
+                          type: integer
+                        data:
+                          type: object
+                          properties:
+                            seo:
+                              type: object
+                              properties:
+                                title:
+                                  type: object
+                                  properties:
+                                    meta: 
+                                      type: array
+                                      items:
+                                        type: string
+                                    og: 
+                                      type: array
+                                      items:
+                                        type: string
+                                    twitter: 
+                                      type: array
+                                      items:
+                                        type: string
+                                description:
+                                  type: object
+                                  properties:
+                                    meta: 
+                                      type: array
+                                      items:
+                                        type: string
+                                    og: 
+                                      type: array
+                                      items:
+                                        type: string
+                                    twitter: 
+                                      type: array
+                                      items:
+                                        type: string
+                                canonical:
+                                  type: object
+                                  properties:
+                                    meta: 
+                                      type: array
+                                      items:
+                                        type: string
+                                    og: 
+                                      type: array
+                                      items:
+                                        type: string
+                                image:
+                                  type: object
+                                  properties:
+                                    og: 
+                                      type: array
+                                      items:
+                                        type: string
+                                    twitter: 
+                                      type: array
+                                      items:
+                                        type: string
+                            url: 
+                              type: object
+                              properties:
+                                text:
+                                  type: string
+                                link: 
+                                  type: string
+                            media:
+                              type: object
+                              properties:
+                                img:
+                                  type: object
+                                  properties:
+                                    alt:
+                                      type: string
+                                    link: 
+                                      type: string
+                                video:
+                                  type: array
+                                  items: 
+                                    type: string
+                                audio:
+                                  type: array
+                                  items:
+                                    type: string
+                            text:
+                              type: object
+                              properties:
+                                h1:
+                                  type: array
+                                  items:
+                                    type: string
+                                h2:
+                                  type: array
+                                  items:
+                                    type: string
+                                h3:
+                                  type: array
+                                  items:
+                                    type: string
+                                h4:
+                                  type: array
+                                  items:
+                                    type: string
+                                h5:
+                                  type: array
+                                  items:
+                                    type: string
+                                h6:
+                                  type: array
+                                  items:
+                                    type: string
+                                p:
+                                  type: array
+                                  items:
+                                    type: string   
+                                b:
+                                  type: array
+                                  items:
+                                    type: string    
+                                i:
+                                  type: array
+                                  items:
+                                    type: string    
+                                u:
+                                  type: array
+                                  items:
+                                    type: string    
+                                strike:
+                                  type: array
+                                  items:
+                                    type: string    
+                                sup:
+                                  type: array
+                                  items:
+                                    type: string
+                                sub:
+                                  type: array
+                                  items:
+                                    type: string
+                                small:
+                                  type: array
+                                  items:
+                                    type: string 
+                                tt:
+                                  type: array
+                                  items:
+                                    type: string
+                                pre:
+                                  type: array
+                                  items:
+                                    type: string
+                                blockquote:
+                                  type: array
+                                  items:
+                                    type: string
+                                strong:
+                                  type: array
+                                  items:
+                                    type: string     
+                                em:
+                                  type: array
+                                  items:
+                                    type: string   
+                                font:
+                                  type: array
+                                  items:
+                                    type: string
+                                  
+                            table:
+                              type: object
+                              properties:
+                                th:
+                                  type: array
+                                  items:
+                                    type: string
+                                td:
+                                  type: array
+                                  items:
+                                    type: string
+                            list:
+                              type: array
+                              items: 
+                                type: string
+          '400':
+            description: Bad request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BadRequest'
+          '401':
+            description: Unauthorized Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UnauthorizedError' 
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InternalServerError'                
+components:
+  schemas:
+    BadRequest:
+      title: Bad Request
+      type: object
+      description: Bad Request
+      properties:
+        status:
+          type: integer
+        time: 
+          type: integer
+        message:
+          type: string
+        data:
+          type: string
+          nullable: true
+    InternalServerError:
+      title: Internal Server Error
+      type: object
+      description: Internal Server Error
+      properties:
+        status:
+          type: integer
+        time: 
+          type: integer
+        message:
+          type: string
+        data:
+          type: string
+          nullable: true
+    UnauthorizedError:
+      title: Unauthorized Error
+      type: object
+      description: Unauthorized Error
+      properties:
+        status:
+          type: integer
+        message: 
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+  securitySchemes:
+    Bearer:
+      name: Authorization
+      in: header
+      type: apiKey
