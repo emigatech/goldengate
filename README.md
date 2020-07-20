@@ -1,5 +1,5 @@
 # GoldenGate
-For more documentation please visit [GoldenGate ApiDocs](https://www.linkedit.ml)
+For more documentation please visit [GoldenGate ApiDocs](https://goldengate.emiga.tech)
 ## environment files on production
 - .env
 - docker-compose.yaml
