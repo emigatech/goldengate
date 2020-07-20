@@ -22,10 +22,10 @@ add firebase config json to ./config/google-cloud as ```firebase.json```
   - ```Authorization: Bearer (token)``` 
   - ```url:string```
 - ```POST``` /api/storage/migrate
-  - ```Authorization: Bearer *```
+  - ```Authorization: Bearer (token)```
   - ```key:string```
 - ```POST``` /api/scrape 
-  - ```Authorization: Bearer *```
+  - ```Authorization: Bearer (token)```
   - ```cache:string``` (optional)
   - ```url:string```
   - ```key:string``` (optional)
@@ -35,5 +35,5 @@ add firebase config json to ./config/google-cloud as ```firebase.json```
   - ```device:string```
     - default ```desktop```, ```mobile```
 - ```GET``` /api/data/results:key (Cache)
-  - ```Authorization: Bearer *```
+  - ```Authorization: Bearer (token)```
   - ```key:string```
