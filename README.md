@@ -1,4 +1,5 @@
 # GoldenGate
+![GoldenGate Schheme](reference/scheme.png)
 
 ## environment files on production
 - .env
