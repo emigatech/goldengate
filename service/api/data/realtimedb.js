@@ -29,9 +29,11 @@ router.get('/results/:key', (req, res) => {
                 res.status(200).json({
                     status: 200,
                     time: Date.now(),
+                    scraped_time: (data.val()).time,
                     key: req.params.key,
-                    message: "success",
-                    data: { ...data.val() }
+                    url: (data.val()).url,
+                    message: (data.val()).message,
+                    data: { ...(data.val()).data }
                 });
             }
         });

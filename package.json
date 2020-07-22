@@ -1,8 +1,7 @@
 {
   "name": "goldengate",
-  "version": "0.1.0",
-  "description": "GoldenGate Service is designed for Realtime Archive Cache",
-  "private": true,
+  "version": "0.2.0",
+  "description": "GoldenGate is dynamic/static web scraper, and It is integrated to Google Cloud Storage and Firebase Realtime DB",
   "main": "service/server.js",
   "scripts": {
     "dev": "nodemon service/server.js"

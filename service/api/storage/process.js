@@ -1,7 +1,7 @@
 const express = require('express');
 const path    = require('path');
 const router  = express.Router();
-const { storage, config } = require(path.join(__dirname, `/../../functions/storage`));
+const { storage, config } = require(path.join(__dirname, `/../../helpers/storage`));
 
 
 router.post('/migrate', (req, res) => {
