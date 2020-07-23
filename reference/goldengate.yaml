@@ -1,12 +1,12 @@
 openapi: 3.0.0
 
 info:
-  version: 0.2.0
+  version: 0.2.1
   title: GoldenGate
   description: Cloud based dynamic/static scraper
   
 servers:
-  - url: 'http://127.0.0.1:5000'
+  - url: 'https://api-goldengate.emiga.tech'
     description: GoldenGate Public Api v0.2.0
 
 paths:
@@ -571,20 +571,22 @@ components:
           type: object
           properties:
             img:
-              type: object
-              properties:
-                alt:
-                  type: string
-                link: 
-                  type: string
-        video:
-          type: array
-          items: 
-            type: string
-        audio:
-          type: array
-          items:
-            type: string
+              type: array
+              items:
+                type: object
+                properties:
+                  alt:
+                    type: string
+                  link: 
+                    type: string
+            video:
+              type: array
+              items: 
+                type: string
+            audio:
+              type: array
+              items:
+                type: string
         text:
           type: object
           properties:

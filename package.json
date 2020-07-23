@@ -1,6 +1,6 @@
 {
   "name": "goldengate",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "GoldenGate is dynamic/static web scraper, and It is integrated to Google Cloud Storage and Firebase Realtime DB",
   "main": "service/server.js",
   "scripts": {
