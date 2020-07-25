@@ -79,7 +79,7 @@ module.exports = {
 												html: html,
 												image: image
 											},
-											data: data.data.data
+											data: data.data
 										})
 									})
 							})
