@@ -93,6 +93,15 @@ router.post('/login', (req, res, next) => {
                         }
                     });
                 }
+                else {
+                	res.status(400)
+	                .json({
+	                    status: 400,
+	                    time: Date.now(),
+	                    message: "password or email is invalid",
+	                    data: null
+	                });
+                }
             }
             else {
                 res.status(400)
