@@ -19,7 +19,7 @@ router.post('/login', (req, res, next) => {
             data: null
         })
     }
-    if(!email.validate(req.body.email))
+    else if(!email.validate(req.body.email))
     {
         res.status(400)
         .json({
@@ -29,7 +29,7 @@ router.post('/login', (req, res, next) => {
             data: null
         })
     }
-    if(req.body.password === null || req.body.password === "")
+    else if(req.body.password === null || req.body.password === "")
     {
         res.status(400)
         .json({
@@ -39,7 +39,7 @@ router.post('/login', (req, res, next) => {
             data: null
         })
     }
-    if(typeof req.body.email !== "string" || 
+    else if(typeof req.body.email !== "string" || 
         typeof req.body.password !== "string")
     {
         res.status(400)
@@ -49,81 +49,81 @@ router.post('/login', (req, res, next) => {
             message: "value of body variables should be a string",
             data: null
         })
-    }    
-
-    const user = 
-    {
-        id:crypto.createHash('md5').update(secret+req.body.email).digest("hex"),
-        email: req.body.email,
-        password: crypto.createHash('md5').update(secret+req.body.password).digest("hex")
     }
+    else {
+    	const user = 
+	    {
+	        id:crypto.createHash('md5').update(secret+req.body.email).digest("hex"),
+	        email: req.body.email,
+	        password: crypto.createHash('md5').update(secret+req.body.password).digest("hex")
+	    }
 
-    try{
-        DB.ref.child(`auth/${user.id}`)
-        .once("value", (data)=>{
-            if(data.exists()) 
-            {
-                if((data.val()).password === user.password)
-                {
-                    const token = jwt.sign(
-                        {
-                            sub: (data.val()).id,
-                            email: (data.val()).email,
-                            firstname: (data.val()).firstname,
-                            lastname: (data.val()).lastname
-                        },
-                        secret,
-                        {
-                            algorithm: 'HS256',
-                            expiresIn: '24h',
-                            issuer: issuer
-                        }
-                    );
-                    res.status(200)
-                    .json({
-                        status: 200,
-                        time: Date.now(),
-                        message: "authenticated",
-                        data: {
-                            id: user.id,
-                            email: user.email,
-                            token: token, 
-                            firstname: (data.val()).firstname || null,
-                            lastname: (data.val()).lastname || null
-                        }
-                    });
-                }
-                else {
-                	res.status(400)
+	    try{
+	        DB.ref.child(`auth/${user.id}`)
+	        .once("value", (data)=>{
+	            if(data.exists()) 
+	            {
+	                if((data.val()).password === user.password)
+	                {
+	                    const token = jwt.sign(
+	                        {
+	                            sub: (data.val()).id,
+	                            email: (data.val()).email,
+	                            firstname: (data.val()).firstname,
+	                            lastname: (data.val()).lastname
+	                        },
+	                        secret,
+	                        {
+	                            algorithm: 'HS256',
+	                            expiresIn: '24h',
+	                            issuer: issuer
+	                        }
+	                    );
+	                    res.status(200)
+	                    .json({
+	                        status: 200,
+	                        time: Date.now(),
+	                        message: "authenticated",
+	                        data: {
+	                            id: user.id,
+	                            email: user.email,
+	                            token: token, 
+	                            firstname: (data.val()).firstname || null,
+	                            lastname: (data.val()).lastname || null
+	                        }
+	                    });
+	                }
+	                else {
+	                	res.status(400)
+		                .json({
+		                    status: 400,
+		                    time: Date.now(),
+		                    message: "password or email is invalid",
+		                    data: null
+		                });
+	                }
+	            }
+	            else {
+	                res.status(400)
 	                .json({
 	                    status: 400,
 	                    time: Date.now(),
 	                    message: "password or email is invalid",
 	                    data: null
 	                });
-                }
-            }
-            else {
-                res.status(400)
-                .json({
-                    status: 400,
-                    time: Date.now(),
-                    message: "password or email is invalid",
-                    data: null
-                });
-            }
-        });
-    }
-    catch(err){
-        res.status(500)
-        .json({
-            status: 500,
-            time: Date.now(),
-            message: `${err}`,
-            data: null
-        })
-    }
-    
+	            }
+	        });
+	    }
+	    catch(err){
+	        res.status(500)
+	        .json({
+	            status: 500,
+	            time: Date.now(),
+	            message: `${err}`,
+	            data: null
+	        })
+	    }
+    }    
 });
 
 router.post('/register', (req, res) => {
@@ -138,7 +138,7 @@ router.post('/register', (req, res) => {
             data: null
         })
     }
-    if(req.body.lastname === null || req.body.lastname === "")
+    else if(req.body.lastname === null || req.body.lastname === "")
     {
         res.status(400)
         .json({
@@ -148,7 +148,7 @@ router.post('/register', (req, res) => {
             data: null
         })
     }
-    if(req.body.email === null || req.body.email === "")
+    else if(req.body.email === null || req.body.email === "")
     {
         res.status(400)
         .json({
@@ -158,7 +158,7 @@ router.post('/register', (req, res) => {
             data: null
         })
     }
-    if(!email.validate(req.body.email))
+    else if(!email.validate(req.body.email))
     {
         res.status(400)
         .json({
@@ -168,7 +168,7 @@ router.post('/register', (req, res) => {
             data: null
         })
     }
-    if(req.body.password === null || req.body.password === "")
+    else if(req.body.password === null || req.body.password === "")
     {
         res.status(400)
         .json({
@@ -178,7 +178,7 @@ router.post('/register', (req, res) => {
             data: null
         })
     }        
-    if(typeof req.body.email !== "string" || 
+    else if(typeof req.body.email !== "string" || 
         typeof req.body.password !== "string" ||
         typeof req.body.firstname !== "string" ||
         typeof req.body.lastname !== "string")
@@ -191,57 +191,58 @@ router.post('/register', (req, res) => {
             data: null
         })
     } 
+    else {
+    	const user = 
+	    {
+	        id: crypto.createHash('md5').update(secret+req.body.email).digest("hex"),
+	        email: req.body.email,
+	        password: crypto.createHash('md5').update(secret+req.body.password).digest("hex"),
+	        firstname: req.body.firstname,
+	        lastname: req.body.lastname
+	    };
 
-    const user = 
-    {
-        id: crypto.createHash('md5').update(secret+req.body.email).digest("hex"),
-        email: req.body.email,
-        password: crypto.createHash('md5').update(secret+req.body.password).digest("hex"),
-        firstname: req.body.firstname,
-        lastname: req.body.lastname
-    };
-
-    try{
-        DB.ref.child(`auth/${user.id}`)
-        .once("value", (data) => {
-            if(!data.exists()) 
-            {
-                DB.ref.child(`auth/${user.id}`)
-                .set({...user})
-                .then(()=>{
-                    res.status(200)
-                    .json({
-                        status: 200,
-                        time: Date.now(),
-                        message: "success",
-                        data: {
-                            id: user.id,
-                            email: user.email,
-                            firstname: user.firstname,
-                            lastname: user.lastname
-                        }
-                    });
-                })
-            }
-            else {
-                res.status(400)
-                .json({
-                    status: 400,
-                    time: Date.now(),
-                    message: "this email address has been registered",
-                    data: null
-                })
-            }
-        });
-    }
-    catch(err){
-        res.status(500)
-        .json({
-            status: 500,
-            time: Date.now(),
-            message: `${err}`,
-            data: null
-        })
+	    try{
+	        DB.ref.child(`auth/${user.id}`)
+	        .once("value", (data) => {
+	            if(!data.exists()) 
+	            {
+	                DB.ref.child(`auth/${user.id}`)
+	                .set({...user})
+	                .then(()=>{
+	                    res.status(200)
+	                    .json({
+	                        status: 200,
+	                        time: Date.now(),
+	                        message: "success",
+	                        data: {
+	                            id: user.id,
+	                            email: user.email,
+	                            firstname: user.firstname,
+	                            lastname: user.lastname
+	                        }
+	                    });
+	                })
+	            }
+	            else {
+	                res.status(400)
+	                .json({
+	                    status: 400,
+	                    time: Date.now(),
+	                    message: "this email address has been registered",
+	                    data: null
+	                })
+	            }
+	        });
+	    }
+	    catch(err){
+	        res.status(500)
+	        .json({
+	            status: 500,
+	            time: Date.now(),
+	            message: `${err}`,
+	            data: null
+	        })
+	    }
     }
 });
 
