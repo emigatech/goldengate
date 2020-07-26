@@ -562,7 +562,7 @@ components:
                       type: string
         url: 
           type: array
-          item:
+          items:
             type: object
             properties:
               text:
