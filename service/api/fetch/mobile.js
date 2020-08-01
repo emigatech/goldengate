@@ -56,7 +56,7 @@ router.post('/', (req, res) => {
             /**
              * Render
              */
-            await page.setUserAgent(`Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36 GoldenGate/${process.env.VERSION}`);
+            await page.setUserAgent(`Mozilla/5.0 (Linux; Android 10; Pixel) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.96 Mobile Safari/537.36 GoldenGate/${process.env.VERSION}`);
 
             await page.waitFor(20000);
             
